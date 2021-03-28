@@ -37,4 +37,17 @@ namespace Soundux
     {
         return toggled;
     }
+
+    void TraySubmenu::setParent(BaseTray *tray)
+    {
+        TrayItem::setParent(tray);
+        for (auto &child : children)
+        {
+            child->setParent(tray);
+        }
+    }
+    std::vector<std::shared_ptr<TrayItem>> TraySubmenu::getChildren()
+    {
+        return children;
+    }
 } // namespace Soundux
