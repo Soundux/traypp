@@ -60,6 +60,12 @@ namespace Soundux
                 gtkItem = gtk_check_menu_item_new_with_label(_item->getName().c_str());
                 gtk_check_menu_item_set_active(reinterpret_cast<GtkCheckMenuItem *>(gtkItem), check->isChecked());
             }
+            else if (auto *submenu = dynamic_cast<TraySubmenu *>(_item); submenu)
+            {
+                gtkItem = gtk_menu_item_new_with_label(submenu->getName().c_str());
+                gtk_menu_item_set_submenu(reinterpret_cast<GtkMenuItem *>(gtkItem),
+                                          reinterpret_cast<GtkWidget *>(constructMenu(submenu->getChildren())));
+            }
 
             g_signal_connect(gtkItem, "activate", reinterpret_cast<GCallback>(callback), _item);
 
