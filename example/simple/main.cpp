@@ -4,7 +4,7 @@
 int main()
 {
     Soundux::Tray tray(
-        "TestTray", "icon.png", Soundux::TrayButton("Test", [&] { tray.exit(); }),
+        "TestTray", "",
         Soundux::TrayCheck("Test Check", false, [](bool state) { std::cout << "Checked: " << state << std::endl; }),
         Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }),
         Soundux::TraySubmenu("Submenu", Soundux::TrayButton("Some button", []() {
@@ -14,6 +14,8 @@ int main()
     auto *submenu = dynamic_cast<Soundux::TraySubmenu *>(tray.getChildren().back().get());
     submenu->addItem(
         Soundux::TrayButton("Another button", []() { std::cout << "Submenu Button 2 pressed!" << std::endl; }));
+
+    tray.addItem(Soundux::TrayButton("Exit", [&] { tray.exit(); }));
 
     while (tray.run())
     {
