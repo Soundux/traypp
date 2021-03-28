@@ -18,7 +18,7 @@ namespace Soundux
 
         AppIndicator *appIndicator;
         static void callback(GtkWidget *, gpointer);
-        static GtkMenuShell *constructMenu(const std::vector<std::shared_ptr<TrayItem>> &items);
+        static GtkMenuShell *constructMenu(const std::vector<std::shared_ptr<TrayItem>> &);
 
       public:
         template <typename... T>
