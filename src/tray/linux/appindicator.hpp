@@ -1,4 +1,5 @@
 #if defined(__linux__)
+#pragma once
 #include "../tray.hpp"
 #include <cassert>
 #include <libappindicator/app-indicator.h>

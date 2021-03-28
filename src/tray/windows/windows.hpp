@@ -1,4 +1,5 @@
 #if defined(_WIN32)
+#pragma once
 #include "../tray.hpp"
 #include <Windows.h>
 #include <cassert>
