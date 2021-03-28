@@ -3,13 +3,23 @@
 
 int main()
 {
+#if defined(__linux__)
     Soundux::Tray tray(
-        "TestTray", "",
+        "TestTray", "icon.png",
         Soundux::TrayCheck("Test Check", false, [](bool state) { std::cout << "Checked: " << state << std::endl; }),
         Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }),
         Soundux::TraySubmenu("Submenu", Soundux::TrayButton("Some button", []() {
                                  std::cout << "Submenu Button 1 pressed!" << std::endl;
                              })));
+#elif defined(_WIN32)
+    Soundux::Tray tray(
+        "TestTray", 0 /*ICON_RESOURCE*/,
+        Soundux::TrayCheck("Test Check", false, [](bool state) { std::cout << "Checked: " << state << std::endl; }),
+        Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }),
+        Soundux::TraySubmenu("Submenu", Soundux::TrayButton("Some button", []() {
+                                 std::cout << "Submenu Button 1 pressed!" << std::endl;
+                             })));
+#endif
 
     auto *submenu = dynamic_cast<Soundux::TraySubmenu *>(tray.getChildren().back().get());
     submenu->addItem(
