@@ -1,4 +1,4 @@
-#include "tray/linux/appindicator.hpp"
+#include "tray.hpp"
 #include <iostream>
 
 int main()
