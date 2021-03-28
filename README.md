@@ -4,7 +4,7 @@ A cross-platform C++17 library that allows you to create simple tray menus.
 ## Compatibility
 | Platform | Implementation            |
 | -------- | ------------------------- |
-| Windows  | Not currently implemented |
+| Windows  | WinAPI                    |
 | Linux    | AppIndicator              |
 
 ## Usage
