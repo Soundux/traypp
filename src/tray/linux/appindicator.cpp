@@ -1,3 +1,4 @@
+#if defined(__linux__)
 #include "appindicator.hpp"
 
 namespace Soundux
@@ -75,3 +76,4 @@ namespace Soundux
         return rtn;
     }
 } // namespace Soundux
+#endif

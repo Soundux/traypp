@@ -1,3 +1,4 @@
+#if defined(__linux__)
 #include "../tray.hpp"
 #include <cassert>
 #include <libappindicator/app-indicator.h>
@@ -32,3 +33,4 @@ namespace Soundux
         void update() override;
     };
 } // namespace Soundux
+#endif
