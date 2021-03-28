@@ -22,7 +22,8 @@ namespace Soundux
         HMENU menu = nullptr;
         WNDCLASSEX windowClass;
         NOTIFYICONDATA notifyData;
-        HMENU constructMenu(const std::vector<std::shared_ptr<TrayItem>> &items);
+        std::vector<std::shared_ptr<char[]>> allocations;
+        HMENU constructMenu(const std::vector<std::shared_ptr<TrayItem>> &, bool = false);
 
         static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
         static std::map<HWND, std::reference_wrapper<Tray>> trayList;

@@ -32,7 +32,7 @@ namespace Soundux
     void Tray::update()
     {
         DestroyMenu(menu);
-        menu = constructMenu(children);
+        menu = constructMenu(children, true);
 
         Shell_NotifyIcon(NIM_MODIFY, &notifyData);
         SendMessage(hwnd, WM_INITMENUPOPUP, reinterpret_cast<WPARAM>(menu), 0);
@@ -63,26 +63,27 @@ namespace Soundux
         trayList.erase(hwnd);
     }
 
-    HMENU Tray::constructMenu(const std::vector<std::shared_ptr<TrayItem>> &items)
+    HMENU Tray::constructMenu(const std::vector<std::shared_ptr<TrayItem>> &items, bool cleanup)
     {
         static auto id = 0;
+        if (cleanup)
+        {
+            allocations.clear();
+        }
 
         auto *rtn = CreatePopupMenu();
         for (const auto &item : items)
         {
             auto *_item = item.get();
 
-            // Yes this causes a memory leak. No I don't want to fix it - WinAPI is hell, actually it's even worse than
-            // hell, I hope satan doesn't punish me by letting me write WinAPI code for eternity. And before reading in
-            // how to recursively get all children of the menu and its submenu-children I'd rather blow my fucking brain
-            // out.
-            auto *name = new char[sizeof(_item->getName().c_str()) + 1];
-            strcpy(name, _item->getName().c_str());
+            auto name = std::shared_ptr<char[]>(new char[_item->getName().size() + 1]);
+            strcpy(name.get(), _item->getName().c_str());
+            allocations.emplace_back(name);
 
             MENUITEMINFO winItem{0};
 
             winItem.wID = ++id;
-            winItem.dwTypeData = name;
+            winItem.dwTypeData = name.get();
             winItem.cbSize = sizeof(MENUITEMINFO);
             winItem.dwItemData = reinterpret_cast<ULONG_PTR>(_item);
             winItem.fMask = MIIM_ID | MIIM_TYPE | MIIM_STATE | MIIM_DATA;
