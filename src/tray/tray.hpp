@@ -50,6 +50,7 @@ namespace Soundux
         virtual bool run() = 0;
         virtual void exit() = 0;
         virtual void update() = 0;
+        virtual std::vector<std::shared_ptr<TrayItem>> getChildren();
     };
 
     class TrayButton : public TrayItem

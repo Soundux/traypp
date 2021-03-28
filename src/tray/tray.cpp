@@ -50,4 +50,9 @@ namespace Soundux
     {
         return children;
     }
+
+    std::vector<std::shared_ptr<TrayItem>> BaseTray::getChildren()
+    {
+        return children;
+    }
 } // namespace Soundux
