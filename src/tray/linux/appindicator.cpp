@@ -48,6 +48,10 @@ namespace Soundux
         {
             check->onToggled(!check->isChecked());
         }
+        else if (auto *syncedCheck = dynamic_cast<TraySyncedCheck *>(item); syncedCheck)
+        {
+            syncedCheck->onToggled(!syncedCheck->isChecked());
+        }
     }
 
     GtkMenuShell *Tray::constructMenu(const std::vector<std::shared_ptr<TrayItem>> &items)
@@ -67,6 +71,11 @@ namespace Soundux
             {
                 gtkItem = gtk_check_menu_item_new_with_label(_item->getName().c_str());
                 gtk_check_menu_item_set_active(reinterpret_cast<GtkCheckMenuItem *>(gtkItem), check->isChecked());
+            }
+            else if (auto *syncedCheck = dynamic_cast<TraySyncedCheck *>(_item); syncedCheck)
+            {
+                gtkItem = gtk_check_menu_item_new_with_label(_item->getName().c_str());
+                gtk_check_menu_item_set_active(reinterpret_cast<GtkCheckMenuItem *>(gtkItem), syncedCheck->isChecked());
             }
             else if (auto *submenu = dynamic_cast<TraySubmenu *>(_item); submenu)
             {

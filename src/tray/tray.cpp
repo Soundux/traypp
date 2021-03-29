@@ -38,6 +38,20 @@ namespace Soundux
         return toggled;
     }
 
+    void TraySyncedCheck::onToggled(bool state)
+    {
+        toggled = state;
+        checked(toggled);
+    }
+    void TraySyncedCheck::setCallback(std::function<void(bool)> callback)
+    {
+        checked = std::move(callback);
+    }
+    bool TraySyncedCheck::isChecked() const
+    {
+        return toggled;
+    }
+
     void TraySubmenu::setParent(BaseTray *tray)
     {
         TrayItem::setParent(tray);
