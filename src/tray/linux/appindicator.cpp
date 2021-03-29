@@ -20,13 +20,20 @@ namespace Soundux
     {
         if (appIndicator)
         {
-            return gtk_main_iteration();
+            return gtk_main_iteration_do(true);
         }
         return false;
     }
     void Tray::exit()
     {
-        appIndicator = nullptr;
+        g_idle_add(
+            +[](gpointer data) -> gboolean {
+                auto *tray = reinterpret_cast<Tray *>(data);
+                g_object_unref(tray->appIndicator);
+                tray->appIndicator = nullptr;
+                return FALSE;
+            },
+            this);
     }
 
     void Tray::callback([[maybe_unused]] GtkWidget *widget, gpointer userData)
