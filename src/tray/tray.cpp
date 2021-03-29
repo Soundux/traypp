@@ -14,6 +14,11 @@ namespace Soundux
     {
         return name;
     }
+    void TrayItem::setName(std::string newName)
+    {
+        name = std::move(newName);
+        parent->update();
+    }
 
     void TrayButton::onClicked()
     {

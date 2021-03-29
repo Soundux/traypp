@@ -19,6 +19,7 @@ namespace Soundux
 
         BaseTray *getParent();
         std::string getName();
+        void setName(std::string);
         virtual void setParent(BaseTray *);
     };
     class BaseTray
