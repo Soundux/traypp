@@ -98,6 +98,17 @@ namespace Soundux
                     winItem.fState |= MFS_UNCHECKED;
                 }
             }
+            else if (auto *syncedCheck = dynamic_cast<TraySyncedCheck *>(_item); syncedCheck)
+            {
+                if (syncedCheck->isChecked())
+                {
+                    winItem.fState |= MFS_CHECKED;
+                }
+                else
+                {
+                    winItem.fState |= MFS_UNCHECKED;
+                }
+            }
             else if (auto *submenu = dynamic_cast<TraySubmenu *>(_item); submenu)
             {
                 winItem.fMask |= MIIM_SUBMENU;
@@ -141,6 +152,11 @@ namespace Soundux
                 else if (auto *check = dynamic_cast<TrayCheck *>(item); check)
                 {
                     check->onToggled(!check->isChecked());
+                    menu.update();
+                }
+                else if (auto *syncedCheck = dynamic_cast<TraySyncedCheck *>(item); syncedCheck)
+                {
+                    syncedCheck->onToggled(!syncedCheck->isChecked());
                     menu.update();
                 }
             }

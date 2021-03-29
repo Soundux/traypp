@@ -88,6 +88,22 @@ namespace Soundux
         bool isChecked() const;
         void setCallback(std::function<void(bool)>);
     };
+    class TraySyncedCheck : public TrayItem
+    {
+        bool &toggled;
+        std::function<void(bool)> checked;
+
+      public:
+        ~TraySyncedCheck() override = default;
+        TraySyncedCheck(std::string name, bool &toggled, std::function<void(bool)> callback)
+            : TrayItem(std::move(name)), toggled(toggled), checked(std::move(callback))
+        {
+        }
+
+        void onToggled(bool);
+        bool isChecked() const;
+        void setCallback(std::function<void(bool)>);
+    };
     class TraySubmenu : public TrayItem
     {
         std::vector<std::shared_ptr<TrayItem>> children;
