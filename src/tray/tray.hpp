@@ -34,7 +34,11 @@ namespace Soundux
             (addItem<std::decay_t<decltype(items)>, false>(items), ...);
         }
 
-        template <typename T, bool shouldUpdate = true> void addItem(const T &item)
+        template <typename... T> void addItems(const T &...items)
+        {
+            (addItem(items), ...);
+        }
+        template <typename T, bool shouldUpdate = true> auto addItem(const T &item)
         {
             children.emplace_back(std::make_shared<T>(item));
             children.back()->setParent(this);
@@ -42,6 +46,7 @@ namespace Soundux
             {
                 update();
             }
+            return std::dynamic_pointer_cast<std::decay_t<T>>(children.back());
         }
 
         BaseTray(const BaseTray &) = delete;
@@ -94,7 +99,11 @@ namespace Soundux
             (addItem(items), ...);
         }
 
-        template <typename T> void addItem(const T &item)
+        template <typename... T> void addItems(const T &...items)
+        {
+            (addItem(items), ...);
+        }
+        template <typename T> auto addItem(const T &item)
         {
             children.emplace_back(std::make_shared<T>(item));
             children.back()->setParent(parent);
@@ -102,6 +111,7 @@ namespace Soundux
             {
                 parent->update();
             }
+            return std::dynamic_pointer_cast<std::decay_t<T>>(children.back());
         }
 
         void setParent(BaseTray *tray) override;
