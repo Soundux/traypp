@@ -45,7 +45,7 @@ namespace Soundux
 
     void TraySyncedCheck::onToggled(bool state)
     {
-        checked(toggled);
+        checked(state);
         toggled = state;
     }
     void TraySyncedCheck::setCallback(std::function<void(bool)> callback)
