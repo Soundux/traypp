@@ -14,17 +14,18 @@ namespace Soundux
         parent.windowClass.lpszClassName = name.c_str();
         parent.windowClass.hInstance = GetModuleHandle(nullptr);
 
-        assert(RegisterClassEx(&parent.windowClass) != 0);
-        parent.hwnd = CreateWindowEx(0, name.c_str(), nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
-        assert(parent.hwnd != nullptr);
+        RegisterClassEx(&parent.windowClass);
+        parent.hwnd =
+            CreateWindow(name.c_str(), nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, parent.windowClass.hInstance, nullptr);
         UpdateWindow(parent.hwnd);
 
-        memset(&parent.notifyData, 0, sizeof(parent.notifyData));
+        memset(&parent.notifyData, 0, sizeof(NOTIFYICONDATA));
         parent.notifyData.cbSize = sizeof(NOTIFYICONDATA);
         parent.notifyData.hWnd = parent.hwnd;
-        parent.notifyData.hIcon = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(icon)); // NOLINT
         parent.notifyData.uFlags = NIF_ICON | NIF_MESSAGE;
         parent.notifyData.uCallbackMessage = WM_TRAY;
+        parent.notifyData.hIcon = LoadIcon(parent.windowClass.hInstance, MAKEINTRESOURCE(icon)); // NOLINT
+
         Shell_NotifyIcon(NIM_ADD, &parent.notifyData);
         parent.trayList.insert({parent.hwnd, parent});
     }

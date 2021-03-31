@@ -19,7 +19,7 @@ namespace Soundux
     {
         friend class TrayPreInitializer;
 
-        HWND hwnd;
+        HWND hwnd = nullptr;
         HMENU menu = nullptr;
         WNDCLASSEX windowClass;
         NOTIFYICONDATA notifyData;
