@@ -1,12 +1,14 @@
 #if defined(_WIN32)
 #include "windows.hpp"
+#include <stdexcept>
 
 namespace Soundux
 {
     static constexpr auto WM_TRAY = WM_USER + 1;
     std::map<HWND, std::reference_wrapper<Tray>> Tray::trayList;
 
-    TrayPreInitializer::TrayPreInitializer(const std::string &name, WORD icon, Tray &parent)
+    TrayPreInitializer::TrayPreInitializer(const std::string &name, const std::variant<WORD, HICON, std::string> &icon,
+                                           Tray &parent)
     {
         memset(&parent.windowClass, 0, sizeof(parent.windowClass));
         parent.windowClass.cbSize = sizeof(WNDCLASSEX);
@@ -24,7 +26,28 @@ namespace Soundux
         parent.notifyData.hWnd = parent.hwnd;
         parent.notifyData.uFlags = NIF_ICON | NIF_MESSAGE;
         parent.notifyData.uCallbackMessage = WM_TRAY;
-        parent.notifyData.hIcon = LoadIcon(parent.windowClass.hInstance, MAKEINTRESOURCE(icon)); // NOLINT
+
+        if (std::holds_alternative<WORD>(icon))
+        {
+            parent.notifyData.hIcon =
+                LoadIcon(parent.windowClass.hInstance, MAKEINTRESOURCE(std::get<WORD>(icon))); // NOLINT
+        }
+        else if (std::holds_alternative<HICON>(icon))
+        {
+            parent.notifyData.hIcon = std::get<HICON>(icon);
+        }
+        else if (std::holds_alternative<std::string>(icon))
+        {
+            auto *hIcon = reinterpret_cast<HICON>(LoadImageA(nullptr, std::get<std::string>(icon).c_str(), IMAGE_ICON,
+                                                             0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE));
+            if (hIcon == nullptr)
+            {
+                throw std::runtime_error("Failed to load icon");
+                return;
+            }
+
+            parent.notifyData.hIcon = hIcon;
+        }
 
         Shell_NotifyIcon(NIM_ADD, &parent.notifyData);
         parent.trayList.insert({parent.hwnd, parent});
@@ -62,6 +85,12 @@ namespace Soundux
         UnregisterClass(name.c_str(), GetModuleHandle(nullptr));
         PostMessage(hwnd, WM_QUIT, 0, 0);
         trayList.erase(hwnd);
+        allocations.clear();
+
+        if (!icon.empty())
+        {
+            DestroyIcon(notifyData.hIcon);
+        }
     }
 
     HMENU Tray::constructMenu(const std::vector<std::shared_ptr<TrayItem>> &items, bool cleanup)
@@ -78,7 +107,7 @@ namespace Soundux
             auto *_item = item.get();
 
             auto name = std::shared_ptr<char[]>(new char[_item->getName().size() + 1]);
-            strcpy(name.get(), _item->getName().c_str());
+            strcpy(name.get(), _item->getName().c_str()); // NOLINT
             allocations.emplace_back(name);
 
             MENUITEMINFO winItem{0};

@@ -5,6 +5,7 @@
 #include <cassert>
 #include <map>
 #include <shellapi.h>
+#include <variant>
 
 namespace Soundux
 {
@@ -12,7 +13,7 @@ namespace Soundux
     class TrayPreInitializer
     {
       protected:
-        TrayPreInitializer(const std::string &, WORD, Tray &);
+        TrayPreInitializer(const std::string &, const std::variant<WORD, HICON, std::string> &, Tray &);
     };
 
     class Tray : TrayPreInitializer, public BaseTray
@@ -31,8 +32,10 @@ namespace Soundux
 
       public:
         template <typename... T>
-        Tray(std::string name, WORD icon, const T &...items)
-            : TrayPreInitializer(name, icon, *this), BaseTray(std::move(name), "", items...)
+        Tray(std::string name, const std::variant<WORD, HICON, std::string> &icon, const T &...items)
+            : TrayPreInitializer(name, icon, *this),
+              BaseTray(std::move(name), std::holds_alternative<std::string>(icon) ? std::get<std::string>(icon) : "",
+                       items...)
         {
             update();
         }
