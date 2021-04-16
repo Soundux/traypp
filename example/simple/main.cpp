@@ -10,12 +10,9 @@ int main()
         Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }));
 #elif defined(_WIN32)
     Soundux::Tray tray(
-        "TestTray", 0 /*ICON_RESOURCE*/,
+        "TestTray", "C:/Users/Noah/Desktop/traypp/icon.ico" /*ICON_PATH, ICON_RESOURCE or HICON*/,
         Soundux::TrayCheck("Test Check", false, [](bool state) { std::cout << "Checked: " << state << std::endl; }),
-        Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }),
-        Soundux::TraySubmenu("Submenu", Soundux::TrayButton("Some button", []() {
-                                 std::cout << "Submenu Button 1 pressed!" << std::endl;
-                             })));
+        Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }));
 #endif
 
     tray.addItem(Soundux::TraySubmenu(
