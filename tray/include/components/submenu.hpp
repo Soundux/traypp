@@ -20,9 +20,9 @@ namespace Tray
             addEntries(entries...);
         }
 
-        template <typename... T> void addEntires(const T &...entires)
+        template <typename... T> void addEntries(const T &...entries)
         {
-            (addEntry(entires), ...);
+            (addEntry(entries), ...);
         }
 
         template <typename T, std::enable_if_t<std::is_base_of_v<TrayEntry, T>> * = nullptr>
