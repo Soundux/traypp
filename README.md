@@ -22,7 +22,7 @@ int main()
   Tray tray("My Tray", "icon.ico");
   tray.addEntry(Button("Exit", [&]{
     tray.exit();
-  });
+  }));
 
   tray.run();
 
