@@ -11,7 +11,7 @@ int main()
     tray.addEntry(Tray::Label("Test Label"));
     tray.addEntry(Tray::Toggle("Test Toggle", false, [](bool state) { printf("State: %i\n", state); }));
 
-    tray.addEntry(Tray::Seperator());
+    tray.addEntry(Tray::Separator());
     tray.addEntry(Tray::Submenu("Test Submenu"))->addEntry(Tray::Button("Submenu button!"))->setDisabled(true);
 
     tray.run();
