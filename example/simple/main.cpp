@@ -1,29 +1,17 @@
-#include "tray.hpp"
 #include <iostream>
+#include <tray.hpp>
 
 int main()
 {
-#if defined(__linux__)
-    Soundux::Tray tray(
-        "TestTray", "icon.png",
-        Soundux::TrayCheck("Test Check", false, [](bool state) { std::cout << "Checked: " << state << std::endl; }),
-        Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }));
-#elif defined(_WIN32)
-    Soundux::Tray tray(
-        "TestTray", "icon.ico" /*ICON_PATH, ICON_RESOURCE or HICON*/,
-        Soundux::TrayCheck("Test Check", false, [](bool state) { std::cout << "Checked: " << state << std::endl; }),
-        Soundux::TrayCheck("Test Check 2", true, [](bool state) { std::cout << "Checked 2: " << state << std::endl; }));
-#endif
+    Tray::Tray tray("test", "icon.ico");
 
-    tray.addItem(Soundux::TraySubmenu(
-                     "Submenu", Soundux::TrayButton("Some button",
-                                                    []() { std::cout << "Submenu Button 1 pressed!" << std::endl; })))
-        ->addItem(
-            Soundux::TrayButton("Another button", []() { std::cout << "Submenu Button 2 pressed!" << std::endl; }));
+    tray.addEntry(Tray::Button("Test"));
+    tray.addEntry(Tray::Button("Test"))->setDisabled(true);
+    tray.addEntry(Tray::Seperator());
+    tray.addEntry(Tray::Label("Test Label"));
+    tray.addEntry(Tray::Toggle("Test Toggle", false, [](bool state) { printf("State: %i\n", state); }));
 
-    tray.addItem(Soundux::TrayButton("Exit", [&] { tray.exit(); }));
-
-    while (tray.run())
+    while (tray.run(true))
     {
     }
 
