@@ -8,7 +8,7 @@ Tray::Icon::Icon(const std::string &path)
 }
 Tray::Icon::Icon(HICON icon) : hIcon(icon) {}
 Tray::Icon::Icon(const char *path) : Icon(std::string(path)) {}
-Tray::Icon::Icon(WORD icon) : hIcon(LoadIcon(nullptr, MAKEINTRESOURCE(icon))) {} // NOLINT
+Tray::Icon::Icon(WORD icon) : hIcon(LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(icon))) {} // NOLINT
 
 Tray::Icon::operator HICON()
 {
