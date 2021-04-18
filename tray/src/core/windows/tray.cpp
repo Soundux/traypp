@@ -142,7 +142,7 @@ HMENU Tray::Tray::construct(const std::vector<std::shared_ptr<TrayEntry>> &entri
         {
             winItem.fState = MFS_DISABLED;
         }
-        else if (dynamic_cast<Seperator *>(item))
+        else if (dynamic_cast<Separator *>(item))
         {
             winItem.fType = MFT_SEPARATOR;
         }

@@ -7,7 +7,7 @@ int main()
 
     tray.addEntry(Tray::Button("Exit", [&] { tray.exit(); }));
     tray.addEntry(Tray::Button("Test"))->setDisabled(true);
-    tray.addEntry(Tray::Seperator());
+    tray.addEntry(Tray::Separator());
     tray.addEntry(Tray::Label("Test Label"));
     tray.addEntry(Tray::Toggle("Test Toggle", false, [](bool state) { printf("State: %i\n", state); }));
 

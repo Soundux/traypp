@@ -4,10 +4,10 @@
 
 namespace Tray
 {
-    class Seperator : public TrayEntry
+    class Separator : public TrayEntry
     {
       public:
-        Seperator();
-        ~Seperator() override = default;
+        Separator();
+        ~Separator() override = default;
     };
 } // namespace Tray

@@ -123,7 +123,7 @@ GtkMenuShell *Tray::Tray::construct(const std::vector<std::shared_ptr<TrayEntry>
             gtkItem = gtk_menu_item_new_with_label(item->getText().c_str());
             gtk_widget_set_sensitive(gtkItem, FALSE);
         }
-        else if (dynamic_cast<Seperator *>(item))
+        else if (dynamic_cast<Separator *>(item))
         {
             gtkItem = gtk_separator_menu_item_new();
         }
