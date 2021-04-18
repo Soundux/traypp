@@ -44,7 +44,11 @@ Button(std::string text, std::function<void()> callback);
 ImageButton(std::string text, Image image, std::function<void()> callback);
 ```
 **Parameters:**
-- `image` - The image tho show, can be a path to an icon or an GtkImage*
+- `image` - The image tho show
+  - Windows
+    > Image should either be a path to a bitmap or an HBITMAP
+  - Linux
+    > Image should either be a path to a png or a GtkImage
 - `callback` - The function that is called when the button is pressed
 ----
 ### Toggle
