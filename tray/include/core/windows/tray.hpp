@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <core/traybase.hpp>
 #include <map>
+#include <shellapi.h>
 
 namespace Tray
 {
