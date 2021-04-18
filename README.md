@@ -14,17 +14,17 @@ A cross-platform C++17 library that allows you to create simple tray menus.
 ## Basic Usage
 ```cpp
 #include <tray.hpp>
-using Soundux::Tray;
-using Soundux::TrayButton;
+using Tray::Tray;
+using Tray::Button;
 
 int main()
 {
   Tray tray("My Tray", "icon.ico");
-  tray.addItem(TrayButton("Exit"), [&]{
+  tray.addEntry(Button("Exit", [&]{
     tray.exit();
   });
 
-  while (tray.run()) {}
+  tray.run();
 
   return 0;
 }
@@ -34,36 +34,56 @@ int main()
 ## Menu components
 ### Button
 ```cpp
-TrayButton(std::string name, std::function<void()> clicked)
+Button(std::string text, std::function<void()> callback);
 ```
 **Parameters:**
-- `clicked` - The function that is called when the button is pressed
+- `callback` - The function that is called when the button is pressed
 ----
-### Check
+### ImageButton
 ```cpp
-TrayCheck(std::string name, bool toggled, std::function<void(bool)> callback)
+ImageButton(std::string text, Image image, std::function<void()> callback);
 ```
 **Parameters:**
-- `toggled` - The default state of the Toggle
+- `image` - The image tho show, can be a path to an icon or an GtkImage*
+- `callback` - The function that is called when the button is pressed
+----
+### Toggle
+```cpp
+Toggle(std::string text, bool state, std::function<void(bool)> callback);
+```
+**Parameters:**
+- `state` - The default state of the Toggle
 - `callback` - The function that is called when the toggle is pressed
 ----
-### Synced Check
+### Synced Toggle
 ```cpp
-TraySyncedCheck(std::string name, bool &toggled, std::function<void(bool)> callback)
+SyncedToggle(std::string text, bool &state, std::function<void(bool &)> callback);
 ```
 **Parameters:**
-- `toggled` - Reference to a boolean that holds the toggle state
+- `state` - Reference to a boolean that holds the toggle state
   > The provided boolean will influence the toggled state and **will be modified** if the toggle-state changes
 - `callback` - The function that is called when the toggle is pressed
 ----
 ### Submenu
 ```cpp
-template <typename... T>
-TraySubmenu(std::string name, const T &...items)
+Submenu(std::string text);
+
+template <typename... T> 
+Submenu(std::string text, const T &...entries);
 ```
 **Parameters:**
-- `items` - The items that should be added upon construction
-  > Can be empty - you can add children later with `addItem`/`addItems`
+- `entries` - The entries that should be added upon construction
+  > Can be empty - you can add children later with `addEntry`/`addEntries`
+----
+### Label
+```cpp
+Label(std::string text);
+```
+----
+### Separator
+```cpp
+Separator();
+```
 ----
 
 ## Installation
