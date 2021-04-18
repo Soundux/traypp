@@ -158,7 +158,6 @@ HMENU Tray::Tray::construct(const std::vector<std::shared_ptr<TrayEntry>> &entri
         InsertMenuItem(menu, id, TRUE, &winItem);
     }
 
-    id = 0;
     return menu;
 }
 
