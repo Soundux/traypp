@@ -1,11 +1,11 @@
 on:
     push:
-        branches: [master]
+        branches: *
         paths-ignore:
             - "**/README.md"
             - "**/build_linux.yml"
     pull_request:
-        branches: [master]
+        branches: *
 
 name: Build on Windows
 jobs:
