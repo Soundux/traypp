@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.1)
 project(tray VERSION 0.2 DESCRIPTION "A cross-platform C++ system tray library")
 
 file(GLOB src
-    "tray/main.cpp"
     "tray/src/*.cpp"
     "tray/src/*/*.cpp"
     "tray/src/*/*/*.cpp"
@@ -22,10 +21,11 @@ endif()
 
 target_include_directories(tray SYSTEM PUBLIC "tray/include")
 
-target_compile_features(tray PUBLIC cxx_std_17)
-set_target_properties(tray PROPERTIES CMAKE_CXX_STANDARD 17)
-set_target_properties(tray PROPERTIES CMAKE_CXX_EXTENSIONS Off)
-set_target_properties(tray PROPERTIES CMAKE_CXX_STANDARD_REQUIRED On)
+target_compile_features(tray PRIVATE cxx_std_17)
+set_target_properties(tray PROPERTIES 
+                      CXX_STANDARD 17
+                      CXX_EXTENSIONS OFF
+                      CXX_STANDARD_REQUIRED ON)
 
 set_target_properties(tray PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(tray PROPERTIES PROJECT_NAME ${PROJECT_NAME})
