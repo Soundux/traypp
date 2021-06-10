@@ -54,7 +54,10 @@ Tray::Tray::Tray(std::string identifier, Icon icon) : BaseTray(std::move(identif
     }
     trayList.insert({hwnd, *this});
 }
-
+Tray::Tray::~Tray()
+{
+    allocations.clear();
+}
 void Tray::Tray::exit()
 {
     Shell_NotifyIcon(NIM_DELETE, &notifyData);
@@ -63,10 +66,10 @@ void Tray::Tray::exit()
 
     UnregisterClass(identifier.c_str(), GetModuleHandle(nullptr));
     PostMessage(hwnd, WM_QUIT, 0, 0);
-    trayList.erase(hwnd);
     allocations.clear();
 
     DestroyIcon(notifyData.hIcon);
+    trayList.erase(hwnd);
 }
 
 void Tray::Tray::update()

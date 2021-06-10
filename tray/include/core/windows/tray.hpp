@@ -20,6 +20,7 @@ namespace Tray
         static HMENU construct(const std::vector<std::shared_ptr<TrayEntry>> &, Tray *parent, bool cleanup = false);
 
       public:
+        ~Tray();
         Tray(std::string identifier, Icon icon);
         template <typename... T> Tray(std::string identifier, Icon icon, const T &...entries) : Tray(identifier, icon)
         {
