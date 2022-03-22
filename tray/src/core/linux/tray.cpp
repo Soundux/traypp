@@ -168,4 +168,9 @@ void Tray::Tray::run()
     }
 }
 
+void Tray::Tray::pump()
+{
+    gtk_main_iteration_do(false);
+}
+
 #endif
