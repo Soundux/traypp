@@ -1,7 +1,7 @@
 #pragma once
 #if defined(__linux__)
 #include <core/traybase.hpp>
-#include <libappindicator/app-indicator.h>
+#include <libayatana-appindicator/app-indicator.h>
 
 namespace Tray
 {
