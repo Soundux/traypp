@@ -20,6 +20,18 @@ Tray::Tray::Tray(std::string identifier, Icon icon) : BaseTray(std::move(identif
     }
 
     appIndicator = app_indicator_new(this->identifier.c_str(), this->icon, APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+
+    gchar *current_dir = g_get_current_dir();
+    g_print("%s current_dir:%s\n", G_STRFUNC, current_dir);
+    gchar *theme_path = g_build_path(G_DIR_SEPARATOR_S,
+                            current_dir,
+                            "data",
+                            NULL);
+    g_print("%s path:%s\n", G_STRFUNC, theme_path);
+    app_indicator_set_icon_theme_path(appIndicator, theme_path);
+    g_free(current_dir);
+    g_free(theme_path);
+
     app_indicator_set_status(appIndicator, APP_INDICATOR_STATUS_ACTIVE);
 }
 
