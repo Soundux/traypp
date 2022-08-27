@@ -37,6 +37,7 @@ namespace Tray
         virtual void run() = 0;
         virtual void exit() = 0;
         virtual void update() = 0;
+        virtual void pump() = 0;
         std::vector<std::shared_ptr<TrayEntry>> getEntries();
     };
 } // namespace Tray

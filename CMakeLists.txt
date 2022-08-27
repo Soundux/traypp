@@ -13,7 +13,7 @@ add_library(tray STATIC ${src})
 if (UNIX)
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
-    pkg_check_modules(APPINDICATOR REQUIRED appindicator3-0.1)
+    pkg_check_modules(APPINDICATOR REQUIRED ayatana-appindicator3-0.1)
 
     target_link_libraries(tray INTERFACE ${GTK3_LIBRARIES} ${APPINDICATOR_LIBRARIES})
 
